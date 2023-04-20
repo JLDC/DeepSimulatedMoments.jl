@@ -1,0 +1,19 @@
+name = "DeepSimulatedMoments"
+uuid = "390b6536-9368-408a-bf7c-503abaa59547"
+authors = ["JLDC <jonathan.chassot@unisg.ch> and contributors"]
+version = "1.0.0-DEV"
+
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
+LiveServer = "16fef848-5104-11e9-1b77-fb7a48bbb589"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
+
+[compat]
+julia = "1.8"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
