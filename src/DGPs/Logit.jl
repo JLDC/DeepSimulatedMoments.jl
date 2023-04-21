@@ -31,7 +31,7 @@ Logit(; N::Int=100, K::Int=3, T::Type=Float32) = Logit{T}(N, K)
 Logit(N::Int, K::Int=3) = Logit(N=N, K=K)
 
 nfeatures(d::Logit) = d.K + 1 # +1 for the response
-nparams(d::Logit) = d.K
+nparams(d::Logit) = d.K # No intercept
 
 priordraw(d::Logit{T}, S::Int) where T = rand(T, d.K, S)
 
@@ -46,21 +46,21 @@ priordraw(d::Logit{T}, S::Int) where T = rand(T, d.K, S)
 
 @views function generate(d::Logit{T}, S::Int) where T
     θ = priordraw(d, S)
-    X = zeros(T, nfeatures(d), S, d.N)
+    X = zeros(T, d.N, S, nfeatures(d))
 
     @inbounds Threads.@threads for s ∈ axes(X, 2)
         X[:, s, :] = simulate(d, θ[:, s])
     end
     
-    X, θ
+    permutedims(X, (3, 2, 1)), θ
 end
 
 @views function generate(θ::AbstractVector{T}, d::Logit{T}, S::Int) where T
-    X = zeros(T, nfeatures(d), S, d.N)
+    X = zeros(T, d.N, S, nfeatures(d))
 
     @inbounds Threads.@threads for s ∈ axes(X, 2)
         X[:, s, :] = simulate(d, θ)
     end
     
-    X
+    permutedims(X, (3, 2, 1))
 end
