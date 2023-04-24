@@ -96,6 +96,22 @@ Generate `S` data samples from the DGP at parameters `θ`.
 generate(θ::AbstractVector{T}, d::AbstractDGP{T}, S::Int) where T = 
     error_msg(typeof(d), "generate")
 
+"""
+    likelihood(d::AbstractDGP, X::AbstractArray, θ::AbstractVector)
+
+Compute the log-likelihood of the data `X` given the parameters `θ`. This 
+function is irrelevant for DGPs with an intractable likelihood.
+
+# Arguments
+- `d::AbstractDGP{T}`: DGP to compute the log-likelihood for.
+- `X::AbstractArray{T}`: Data to compute the log-likelihood for.
+- `θ::AbstractVector{T}`: Parameters to compute the log-likelihood for.
+
+# Returns
+- `T`: Log-likelihood of the data given the parameters.
+"""
+likelihood(d::AbstractDGP{T}, X::AbstractArray{T}, θ::AbstractVector{T}) where T = 
+    error_msg(typeof(d), "likelihood")
 
 
 # Expected absolute error when using the prior mean as prediction 

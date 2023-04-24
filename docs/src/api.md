@@ -7,6 +7,7 @@ nfeatures
 nparams
 priordraw
 generate
+likelihood
 ```
 
 ### Predefined DGPs
