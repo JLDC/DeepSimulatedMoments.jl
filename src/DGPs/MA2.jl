@@ -1,4 +1,4 @@
-export MA2, nfeatures, nparams, θbounds, insupport, priordraw, generate
+export MA2, nfeatures, nparams, θbounds, insupport, priordraw, generate, likelihood
 
 """
     MA2{T} <: AbstractDGP{T}
@@ -92,6 +92,13 @@ end
 
     # Return loglikelihood without constant part
     -log(det(Σ)) / 2n - dot(X, Σ⁻¹, X)
+end
+
+function likelihood(d::MA2{T}, X::AbstractVector{T}, θ::AbstractVector{T}) where T
+    n = size(X, 1)
+    Σ = zeros(T, n, n)
+    Σ⁻¹ = zeros(T, n, n)
+    likelihood(d, X, θ, Σ, Σ⁻¹)
 end
 
 # Fill in the covariance matrix for MA2

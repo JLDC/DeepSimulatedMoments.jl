@@ -1,4 +1,5 @@
-export Logit, nfeatures, nparams, priordraw, generate
+export Logit, nfeatures, nparams, priordraw, generate, likelihood
+
 """
     Logit{T} <: AbstractDGP{T}
 

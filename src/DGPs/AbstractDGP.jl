@@ -1,4 +1,5 @@
-export AbstractDGP, priordraw, generate, nfeatures, nparams, θbounds, datatransform
+export AbstractDGP, priordraw, generate, nfeatures, nparams, θbounds, 
+    datatransform, likelihood
 
 """
     AbstractDGP{T<:AbstractFloat}
@@ -37,7 +38,7 @@ Number of parameters in the DGP.
 """
 nparams(d::AbstractDGP) = error_msg(typeof(d), "nparams")
 θbounds(d::AbstractDGP, args...) = error_msg(typeof(d), "θbounds")
-function insupport(d::AbstractDGP{T}, θ::Vector{T}) where T
+function insupport(d::AbstractDGP{T}, θ::AbstractVector{T}) where T
     lb, ub = θbounds(d)
     all(θ .≥ lb) && all(θ .≤ ub) 
 end

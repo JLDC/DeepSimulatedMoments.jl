@@ -1,10 +1,13 @@
 using DeepSimulatedMoments
 using Test
 
-function test_dgp(d::AbstractDGP, S::Int)
+function test_dgp(d::AbstractDGP{T}, S::Int, test_likelihood::Bool=true) where T
     X, θ = generate(d, S)
     @test size(X) == (nfeatures(d), S, d.N)
     @test size(θ) == (nparams(d), S)
+    if test_likelihood
+        @test isa(likelihood(d, vec(X[:, 1, :]), θ[:, 1]), T)
+    end
 end
 
 @testset "DeepSimulatedMoments.jl" begin
@@ -18,7 +21,7 @@ end
 
     @testset "Logit checks" begin
         for n ∈ N
-            test_dgp(Logit(n), S)
+            test_dgp(Logit(n), S, false) # TODO
         end
     end
 

@@ -1,4 +1,4 @@
-export GARCH, nfeatures, nparams, θbounds, priordraw, generate
+export GARCH, nfeatures, nparams, θbounds, priordraw, generate, likelihood
 
 """
     GARCH{T} <: AbstractDGP{T}
@@ -91,7 +91,7 @@ end
     end
 
     # Return loglikelihood without constant part
-    mean(-.5log.(h) .- X ./ 2h)
+    mean(-log.(h) .- X ./ h) / 2
 end
 
 likelihood(d::GARCH{T}, X::AbstractVector{T}, θ::AbstractVector{T}) where T = 

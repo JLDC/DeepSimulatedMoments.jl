@@ -1,5 +1,6 @@
 module DeepSimulatedMoments
 
+using LinearAlgebra
 using Flux
 using StatsBase
 
