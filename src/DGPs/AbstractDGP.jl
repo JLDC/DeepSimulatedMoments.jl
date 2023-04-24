@@ -58,7 +58,7 @@ priordraw(d::AbstractDGP, S::Int) = error_msg(typeof(d), "priordraw")
 # Generate prior parameters according to uniform with lower and upper bounds
 function uniformpriordraw(d::AbstractDGP{T}, S::Int) where T
     lb, ub = θbounds(d)
-    @. (ub - lb) * rand(T, size(lb, 1), S) + lb 
+    (ub .- lb) .* rand(T, size(lb, 1), S) .+ lb 
 end
 # Data transform for a particular DGP
 datatransform(d::AbstractDGP, S::Int; dev=cpu) = fit(ZScoreTransform, dev(priordraw(d, S)))

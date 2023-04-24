@@ -40,7 +40,7 @@ end
 function simulate(d::GARCH{T}, θ₁::T, θ₂::T, θ₃::T) where T
     ω, α, β = reparametrize(θ₁, θ₂, θ₃)
 
-    y = zero(T)
+    h, y = θ₁, zero(T)
     z = randn(T, d.N)
     ys = zeros(T, d.N)
 

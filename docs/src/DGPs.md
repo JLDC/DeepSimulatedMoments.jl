@@ -41,11 +41,11 @@ nparams(d::LinearRegression) = d.K + 1 # We have K features and 1 intercept
 function priordraw(d::LinearRegression{T}, S::Int) where T
     # Draw random parameters from a standard normal distribution 
     # (we could modify this to draw from a different distribution)
-    θ = randn(T, S, nparams(d))
+    randn(T, S, nparams(d))
 end
 ```
 
-#### 3. Implement the `simulate` interface (optional)
+#### 4. Implement the `simulate` interface (optional)
 While this interface is not necessary, it is a practical helper as we can use it in both implementations of the `generate` interface.
 
 ```julia
@@ -59,7 +59,7 @@ function simulate(d::LinearRegression{T}, θ::AbstractVector{T}) where T
 end
 ```
 
-#### 4. Implement the `generate` interfaces
+#### 5. Implement the `generate` interfaces
 
 ```julia
 # Generate S data sets and matching parameters
