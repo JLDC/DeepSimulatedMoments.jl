@@ -30,4 +30,10 @@ end
             test_dgp(GARCH(n), S)
         end
     end
+
+    @testset "JumpDiffusion checks" begin
+        for n ∈ N
+            test_dgp(JumpDiffusion(n), S, false) # No lilkelihood
+        end
+    end
 end

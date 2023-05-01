@@ -17,7 +17,7 @@ end
 
 Create a `GARCH` DGP with `N` observations and `T` precision.
 
-# Arguments
+# Keyword Arguments
 - `N::Int`: Number of observations in each sample.
 - `T::Type`: Precision of the data (default: `Float32`, hint: `Float32` is
 recommended for neural network compatibility).

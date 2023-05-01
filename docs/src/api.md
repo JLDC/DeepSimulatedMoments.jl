@@ -25,7 +25,18 @@ TemporalBlock
 TCN
 ```
 
-### Neural Network Utilities
+#### Utilities
+```@docs
+receptive_field_size
+necessary_layers
+```
+
+### Recurrent Neural Networks
+
+#### Utilities
+
+
+### General Neural Network Utilities
 ```@docs
 tabular2conv
 tabular2rnn
