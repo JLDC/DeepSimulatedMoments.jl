@@ -118,7 +118,6 @@ end
 end
 
 @views function generate(θ::Vector{Float32}, d::JumpDiffusion{T}, S::Int) where T
-    # insupport(d, θ...) || throw(ArgumentError("θ is not in support"))
     x = zeros(T, d.N, 3, S)
     Threads.@threads for s ∈ axes(x, 3)
         x[:, :, s] = simulate(d, θ)

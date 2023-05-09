@@ -1,3 +1,5 @@
+export receptive_field_size, necessary_layers
+
 """
     receptive_field_size(dilation, kernel_size, layers)
 

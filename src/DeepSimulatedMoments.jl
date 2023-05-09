@@ -13,5 +13,6 @@ include("DGPs/JumpDiffusion.jl")
 
 include("NeuralNets/utils.jl")
 include("NeuralNets/TCN.jl")
+include("NeuralNets/tcn_utils.jl")
 
 end
