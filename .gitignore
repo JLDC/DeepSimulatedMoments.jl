@@ -27,3 +27,4 @@ Manifest.toml
 # Helper files
 serve_docs.jl
 TODOs.md
+example.jl

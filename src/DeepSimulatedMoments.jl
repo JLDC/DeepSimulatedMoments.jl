@@ -15,4 +15,7 @@ include("NeuralNets/utils.jl")
 include("NeuralNets/TCN.jl")
 include("NeuralNets/tcn_utils.jl")
 
+include("NeuralNets/HyperParameters.jl")
+include("NeuralNets/MomentNetwork.jl")
+
 end

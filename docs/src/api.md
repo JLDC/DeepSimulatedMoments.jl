@@ -27,6 +27,7 @@ TCN
 
 #### Utilities
 ```@docs
+build_tcn
 receptive_field_size
 necessary_layers
 ```

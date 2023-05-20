@@ -16,7 +16,7 @@ connection is added.
 - `dilation::Int`: Kernel dilation.
 - `kernel_size::Int`: Size of the convolutional kernel.
 - `residual::Bool`: Whether to use residual connections.
-- `pad::Function`: Padding to use for the convolutional layers.
+- `pad`: Padding to use for the convolutional layers.
 - `dropout_rate::AbstractFloat`: Dropout rate to use for the convolutional layers.
 
 # Returns
@@ -25,7 +25,7 @@ connection is added.
 function TemporalBlock(
     chan_in::Int, chan_out::Int; 
     dilation::Int, kernel_size::Int,
-    residual::Bool, pad::Function, dropout_rate::AbstractFloat
+    residual::Bool, pad, dropout_rate::AbstractFloat
 )
     # Causal convolutions
     causal_conv = Chain(
@@ -59,7 +59,7 @@ is a `TemporalBlock` with `channels[i]` input channels and `channels[i+1]`
 - `kernel_size::Int`: Size of the convolutional kernel.
 - `dilation_factor::Int`: Factor by which the dilation is increased for each layer. (default: `2`)
 - `residual::Bool`: Whether to use residual connections. (default: `true`)
-- `pad::Function`: Padding to use for the convolutional layers. (default: `SamePad()`)
+- `pad`: Padding to use for the convolutional layers. (default: `SamePad()`)
 - `dropout_rate::AbstractFloat`: Dropout rate to use for the convolutional layers. (default: `0.`)
 
 # Returns
@@ -68,7 +68,7 @@ is a `TemporalBlock` with `channels[i]` input channels and `channels[i+1]`
 function TCN(
     channels::AbstractVector{Int}; 
     kernel_size::Int, dilation_factor::Int=2, residual::Bool=true, 
-    pad::Function=SamePad(), dropout_rate::AbstractFloat=0.,
+    pad=SamePad(), dropout_rate::AbstractFloat=0.,
 )
     Chain([
         TemporalBlock(chan_in, chan_out, dilation=dilation_factor ^ (i - 1), 
