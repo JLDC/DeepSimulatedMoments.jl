@@ -17,6 +17,19 @@ Logit
 GARCH
 ```
 
+## Moment Networks
+
+### HyperParameters
+```@docs
+HyperParameters
+```
+
+### MomentNetwork
+```@docs
+MomentNetwork
+train_network
+```
+
 ## Neural Networks
 
 ### Temporal Convolutional Networks

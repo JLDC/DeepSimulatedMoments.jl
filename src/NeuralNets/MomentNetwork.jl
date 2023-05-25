@@ -1,5 +1,19 @@
 export MomentNetwork, apply_transforms, generate, train_network
 
+"""
+    MomentNetwork
+
+A neural network that estimates the parameters of a DGP.
+
+# Fields
+- `model`: The neural network.
+- `optimizer`: The optimizer.
+- `best_model`: The best model found during training.
+- `hyperparameters`: The hyperparameters.
+- `preprocess`: The preprocessing function.
+- `parameter_transform`: The parameter transform.
+- `data_transform`: The data transform.
+"""
 mutable struct MomentNetwork
     model
     optimizer
@@ -10,6 +24,22 @@ mutable struct MomentNetwork
     data_transform::Function
 end
 
+"""
+    MomentNetwork(model, optimizer, hyperparameters; 
+        preprocess, parameter_transform, data_transform)
+
+Create a [`MomentNetwork`](@ref).
+
+# Arguments
+- `model`: The neural network.
+- `optimizer`: The optimizer.
+- `hyperparameters`: The hyperparameters.
+
+# Keyword Arguments
+- `preprocess`: The preprocessing function (default: `nothing`).
+- `parameter_transform`: The parameter transform (default: `nothing`).
+- `data_transform`: The data transform (default: `tabular2conv`).
+"""
 function MomentNetwork(
     model, optimizer, hyperparameters::HyperParameters;
     preprocess=nothing, parameter_transform=nothing, data_transform=tabular2conv)
