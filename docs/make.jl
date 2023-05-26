@@ -8,6 +8,7 @@ makedocs(
     pages = [
         "Home" => "index.md",
         "Data generating processes" => "DGPs.md",
+        "Moment Generating Networks" => "MGNs.md",
         "API" => "api.md",
     ]
 )
