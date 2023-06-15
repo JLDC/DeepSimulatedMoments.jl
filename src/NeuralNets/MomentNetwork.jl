@@ -89,8 +89,10 @@ function generate(dgp::AbstractDGP, net::MomentNetwork, nsamples::Int)
     apply_transforms(net, X, Y)
 end
 
-_nlosses(net::MomentNetwork) = div(net.hyperparameters.epochs * net.hyperparameters.nsamples,
-    net.hyperparameters.validation_freq)
+_nlosses(net::MomentNetwork) = div(
+    net.hyperparameters.epochs * net.hyperparameters.nsamples,
+    net.hyperparameters.validation_freq
+)
 
 """
     train_network(net::MomentNetwork, dgp::AbstractDGP; verbose::Bool=true)
