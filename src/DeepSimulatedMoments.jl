@@ -12,6 +12,7 @@ include("DGPs/MA2.jl")
 include("DGPs/Logit.jl")
 include("DGPs/GARCH.jl")
 include("DGPs/JumpDiffusion.jl")
+include("DGPs/utils.jl")
 
 include("NeuralNets/utils.jl")
 include("NeuralNets/TCN.jl")

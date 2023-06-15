@@ -1,13 +1,13 @@
-export generate_data
+export generate_files, load_from_file
 """
-    generate_data(dgp::AbstractDGP, dir::String, nfiles::Int; 
+generate_files(dgp::AbstractDGP, dir::String, nfiles::Int; 
         batchsize::Int=1_024, verbosity::Int=(nfiles ÷ 10), 
         preprocessX::Function=identity, preprocessY::Function=identity
     )
 
-Generate data from a [`DGP`](@ref) and save it to a directory. Note that if the 
-directory already contains files, the function will continue from the last file
-until the directory contains `nfiles`.
+Generate data files from a [`DGP`](@ref) and save it to a directory. Note that if 
+the directory already contains files, the function will continue from the last 
+file until the directory contains `nfiles`.
 
 # Arguments
 - `dgp::AbstractDGP`: The [`DGP`](@ref) to generate data from.
@@ -20,7 +20,7 @@ until the directory contains `nfiles`.
 - `preprocessX::Function`: The preprocessing function for the data (default: `identity`).
 - `preprocessY::Function`: The preprocessing function for the parameters (default: `identity`).
 """
-function generate_data(
+function generate_files(
     dgp::AbstractDGP, dir::String, nfiles::Int; 
     batchsize::Int=1_024, verbosity::Int=(nfiles ÷ 10),
     preprocessX::Function=identity, preprocessY::Function=identity
@@ -48,4 +48,18 @@ function generate_data(
             @info Printf.format(Printf.Format("Generated %$(ndigits)d files."), i)
         end
     end
+end
+
+"""
+    load_from_file(file::String)
+
+Load pre-generated data from a file.
+
+# Arguments
+- `file::String`: The file to load the data from.
+"""
+function load_from_file(file::String)
+    file = jldopen(file, "r")
+    @unpack X, Y = file
+    X, Y
 end

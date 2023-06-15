@@ -19,7 +19,8 @@ GARCH
 
 #### Utilities
 ```@docs
-generate_data
+generate_files
+load_from_file
 ```
 
 

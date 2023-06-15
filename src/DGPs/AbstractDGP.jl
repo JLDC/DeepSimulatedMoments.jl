@@ -65,20 +65,19 @@ end
 datatransform(d::AbstractDGP, S::Int; dev=cpu) = fit(ZScoreTransform, dev(priordraw(d, S)))
 
 """
-    generate(d::AbstractDGP, S::Int)
+    generate(d::AbstractDGP, S::Int, dev)
 
 Generate `S` data and parameter samples from the DGP.
 
 # Arguments
 - `d::AbstractDGP{T}`: DGP to generate the data from.
 - `S::Int`: Number of samples to generate.
+- `dev::Device`: Device to generate the data on.
 
 # Returns
 - Tuple{`Matrix{T}`, `Matrix{T}`}: `S` samples of the data and parameters 
 (dimension: `nfeatures(d) × S × N` and `S × nparams(d)`).
 """
-generate(d::AbstractDGP, S::Int) = error_msg(typeof(d), "generate")
-# Generate to specific device directly
 generate(d::AbstractDGP, S::Int; dev=cpu) = map(dev, generate(d, S))
 
 """

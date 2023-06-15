@@ -43,8 +43,6 @@ function simulate(d::Logit{T}, θ::AbstractVector{T}) where T
     hcat(X, y)
 end
 
-priordraw(d::Logit{T}, S::Int) where T = rand(T, d.K, S)
-
 @views function generate(d::Logit{T}, S::Int) where T
     θ = priordraw(d, S)
     X = zeros(T, d.N, S, nfeatures(d))
