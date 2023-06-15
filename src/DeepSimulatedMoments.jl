@@ -3,6 +3,8 @@ module DeepSimulatedMoments
 using DifferentialEquations
 using LinearAlgebra
 using Flux
+using JLD2
+using Printf
 using StatsBase
 
 include("DGPs/AbstractDGP.jl")

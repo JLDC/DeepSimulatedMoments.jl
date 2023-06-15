@@ -17,6 +17,12 @@ Logit
 GARCH
 ```
 
+#### Utilities
+```@docs
+generate_data
+```
+
+
 ## Moment Networks
 
 ### HyperParameters
