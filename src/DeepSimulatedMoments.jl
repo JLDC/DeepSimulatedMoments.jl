@@ -4,8 +4,11 @@ using DifferentialEquations
 using LinearAlgebra
 using Flux
 using JLD2
+using Optim
 using Printf
+using Random
 using StatsBase
+using UnPack
 
 include("DGPs/AbstractDGP.jl")
 include("DGPs/MA2.jl")
@@ -20,5 +23,7 @@ include("NeuralNets/tcn_utils.jl")
 
 include("NeuralNets/HyperParameters.jl")
 include("NeuralNets/MomentNetwork.jl")
+
+include("MSM/SimulatedMoments.jl")
 
 end

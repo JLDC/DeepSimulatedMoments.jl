@@ -74,7 +74,7 @@ end
     insupport(d, θ) || throw(ArgumentError("θ is not in support"))
     X = zeros(T, d.N, S)
     
-    @inbounds Threads.@threads for s ∈ axes(x, 2)
+    @inbounds Threads.@threads for s ∈ axes(X, 2)
         X[:, s] = simulate(d, θ)
     end
 

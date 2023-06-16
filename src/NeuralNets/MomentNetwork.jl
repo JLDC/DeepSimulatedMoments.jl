@@ -1,4 +1,4 @@
-export MomentNetwork, apply_transforms, generate, train_network
+export MomentNetwork, apply_transforms, generate, make_moments, train_network
 
 """
     MomentNetwork
@@ -49,6 +49,15 @@ end
 
 has_parameter_transform(net::MomentNetwork) = !isnothing(net.parameter_transform)
 
+function make_moments(net::MomentNetwork, X) 
+    m = net.model(X)
+    if has_parameter_transform(net)
+        StatsBase.transform!(net.parameter_transform, m)
+    else
+        m
+    end
+end
+
 """
     apply_transforms(net::MomentNetwork, X, Y)
 
@@ -88,6 +97,15 @@ function generate(dgp::AbstractDGP, net::MomentNetwork, nsamples::Int)
     X, Y = generate(dgp, nsamples, dev=net.hyperparameters.dev)
     apply_transforms(net, X, Y)
 end
+
+function generate(
+    θ::AbstractVector{T}, dgp::AbstractDGP{T}, net::MomentNetwork, nsamples::Int
+) where {T<:AbstractFloat}
+    X = generate(θ, dgp, nsamples)
+    apply_transforms(net, X, deepcopy(θ)) # TODO: not nice
+end
+
+
 
 _nlosses(net::MomentNetwork) = div(
     net.hyperparameters.epochs * net.hyperparameters.nsamples,
