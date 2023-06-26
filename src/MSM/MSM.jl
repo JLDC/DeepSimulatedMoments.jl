@@ -1,18 +1,11 @@
 export run_msm
 
-function simmoments(
-    mn::MomentNetwork, dgp::AbstractDGP{T}, S::Int, θ::AbstractVector{T}
-) where {T<:AbstractFloat}
-    X, _ = generate(θ, dgp, S, mn)
-    vec(mean(make_moments(mn, X), dims=2))
-end
-
 function msm_obj(
     θ̂ₓ::AbstractVector{T}, θ⁺::AbstractVector{T}; 
     mn::MomentNetwork, dgp::AbstractDGP{T}, S::Int,
     seed::Union{Nothing, Int}=nothing
 ) where {T<:AbstractFloat}
-    # Make sure solution is in parameter space
+    # Ensure solution is in parameter space
     insupport(dgp, θ⁺) || return Inf
     isnothing(seed) || Random.seed!(seed)
 

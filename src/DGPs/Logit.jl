@@ -36,30 +36,40 @@ nparams(d::Logit) = d.K # No intercept
 
 priordraw(d::Logit{T}, S::Int) where T = rand(T, d.K, S)
 
-function simulate(d::Logit{T}, θ::AbstractVector{T}) where T
-    ϵ = rand(T, d.N)
+function simulate(
+    d::Logit{T}, θ::AbstractVector{T}; 
+    dist=Normal(T(0), T(1))
+) where {T<:AbstractFloat}
+
+    ϵ = rand(dist, d.N)
     X = randn(T, d.N, d.K)
     y = ϵ .< 1 ./ (1 .+ exp.(-X * θ))
     hcat(X, y)
 end
 
-@views function generate(d::Logit{T}, S::Int) where T
+@views function generate(
+    d::Logit{T}, S::Int; 
+    dist=Normal(T(0), T(1))
+) where {T<:AbstractFloat}
+
     θ = priordraw(d, S)
     X = zeros(T, d.N, S, nfeatures(d))
 
     @inbounds Threads.@threads for s ∈ axes(X, 2)
-        X[:, s, :] = simulate(d, θ[:, s])
+        X[:, s, :] = simulate(d, θ[:, s], dist=dist)
     end
-    
     permutedims(X, (3, 2, 1)), θ
 end
 
-@views function generate(θ::AbstractVector{T}, d::Logit{T}, S::Int) where T
+@views function generate(
+    θ::AbstractVector{T}, d::Logit{T}, S::Int;
+    dist=Normal(T(0), T(1))
+) where {T<:AbstractFloat}
+
     X = zeros(T, d.N, S, nfeatures(d))
 
     @inbounds Threads.@threads for s ∈ axes(X, 2)
-        X[:, s, :] = simulate(d, θ)
-    end
-    
+        X[:, s, :] = simulate(d, θ, dist=dist)
+    end    
     permutedims(X, (3, 2, 1))
 end

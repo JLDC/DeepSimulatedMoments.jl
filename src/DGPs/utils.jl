@@ -63,3 +63,54 @@ function load_from_file(file::String)
     @unpack X, Y = file
     X, Y
 end
+
+struct RandomMixture{T<:AbstractFloat}
+    kmin::Int
+    kmax::Int
+    μ::Distribution
+    logσ::Distribution
+    fp::Function
+end
+
+function make(d::RandomMixture)
+    k = rand(d.kmin:d.kmax)
+    MixtureModel([
+        Normal(rand(d.μ), exp(rand(d.logσ))) for _ ∈ 1:k # TODO: This Float32/64 uniform thing is a bit annoying
+    ], d.fp(k)) 
+end
+function RandomMixture(T::Type=Float32)
+    RandomMixture{T}(1, 10, Uniform(-1, 1), Normal(0, 1), k -> rand(Dirichlet(k, 1)))
+end
+
+m
+
+
+Random.rand(d::RandomMixture{T}) where {T<:AbstractFloat} = convert.(T, rand(make(d)))
+Random.rand(d::RandomMixture{T}, n::Int) where {T<:AbstractFloat} = convert.(T, rand(make(d), n))
+
+
+
+
+m = RandomMixture()
+
+
+
+rand(m.μ)
+
+m.μ
+
+rand(m)
+
+
+x = make(m)
+rand(x, 10)
+
+rand(m, 100)
+
+rand(Normal(), 5)
+
+rand(Normal{Float32}(0f0, 1f1))
+
+
+x = Normal{Float32}(0f0, 1f0)
+y = Normal()
