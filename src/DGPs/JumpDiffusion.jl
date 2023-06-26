@@ -134,7 +134,7 @@ end
     permutedims(x, (2, 3, 1))
 end
 
-@views function generate(θ::AbstractMatrix{T}, d::JD) where T
+@views function generate(θ::AbstractMatrix{T}, d::JumpDiffusion{T}) where T
     x = zeros(T, d.N, 3, size(θ, 2))
     @inbounds Threads.@threads for s ∈ axes(x, 3)
         x[:, :, s] = simulate_jd(θ[:, s], d.N)

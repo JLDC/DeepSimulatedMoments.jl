@@ -12,6 +12,7 @@ A simple logistic regression model. (`T` defaults to `Float32`)
 struct Logit{T} <: AbstractDGP{T}
     N::Int
     K::Int
+    dist::ErrorDistribution
 end
 
 """
@@ -28,8 +29,11 @@ recommended for neural network compatibility).
 # Returns
 - `Logit{T}`: Logit DGP.
 """
-Logit(; N::Int=100, K::Int=3, T::Type=Float32) = Logit{T}(N, K)
+Logit(; N::Int=100, K::Int=3, T::Type=Float32, dist=Normal(T(0), T(1))) = 
+    Logit{T}(N, K, ErrorDistribution(dist))
+
 Logit(N::Int, K::Int=3) = Logit(N=N, K=K)
+
 
 nfeatures(d::Logit) = d.K + 1 # +1 for the response
 nparams(d::Logit) = d.K # No intercept
@@ -38,10 +42,9 @@ priordraw(d::Logit{T}, S::Int) where T = rand(T, d.K, S)
 
 function simulate(
     d::Logit{T}, θ::AbstractVector{T}; 
-    dist=Normal(T(0), T(1))
 ) where {T<:AbstractFloat}
 
-    ϵ = rand(dist, d.N)
+    ϵ = rand(d.dist, d.N)
     X = randn(T, d.N, d.K)
     y = ϵ .< 1 ./ (1 .+ exp.(-X * θ))
     hcat(X, y)
@@ -49,27 +52,25 @@ end
 
 @views function generate(
     d::Logit{T}, S::Int; 
-    dist=Normal(T(0), T(1))
 ) where {T<:AbstractFloat}
 
     θ = priordraw(d, S)
     X = zeros(T, d.N, S, nfeatures(d))
 
     @inbounds Threads.@threads for s ∈ axes(X, 2)
-        X[:, s, :] = simulate(d, θ[:, s], dist=dist)
+        X[:, s, :] = simulate(d, θ[:, s])
     end
     permutedims(X, (3, 2, 1)), θ
 end
 
 @views function generate(
     θ::AbstractVector{T}, d::Logit{T}, S::Int;
-    dist=Normal(T(0), T(1))
 ) where {T<:AbstractFloat}
 
     X = zeros(T, d.N, S, nfeatures(d))
 
     @inbounds Threads.@threads for s ∈ axes(X, 2)
-        X[:, s, :] = simulate(d, θ, dist=dist)
+        X[:, s, :] = simulate(d, θ)
     end    
     permutedims(X, (3, 2, 1))
 end

@@ -11,7 +11,7 @@ function msm_obj(
 
     # Compute simulated moments and error between simulated and sample moments
     θ̂ₛ = simmoments(mn, dgp, S, θ⁺)
-    sum(abs2, θ̂ₛ .- θ̂ₓ)
+    sum(abs2, θ̂ₛ - θ̂ₓ)
 end
 
 function run_msm(

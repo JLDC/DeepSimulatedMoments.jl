@@ -11,7 +11,7 @@ function bmsm_obj_cue(
     # Compute weighting matrix, return bmsm objective
     W = inv(Σ̂ₛ)
     err = θ̂ₛ - θ̂ₓ
-    dot(err, W, err)    
+    .5dot(err, W, err) / √dgp.N
 end
 
 function bmsm_obj_2step(
@@ -25,5 +25,7 @@ function bmsm_obj_2step(
     θ̂ₛ = simmoments(mn, dgp, S, θ⁺)
 
     err = θ̂ₛ - θ̂ₓ
-    dot(err, Σ⁻¹, err)
+    .5 * dot(err, Σ⁻¹, err) / √dgp.N
 end
+
+function mcmc()
