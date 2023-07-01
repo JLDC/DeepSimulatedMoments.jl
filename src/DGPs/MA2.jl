@@ -7,6 +7,7 @@ A simple MA(2) process. (`T` defaults to `Float32`)
 
 # Fields
 - `N::Int`: Number of observations in each sample.
+- `dist::ErrorDistribution`: Distribution of the error term.
 """
 struct MA2{T} <: AbstractDGP{T}
     N::Int

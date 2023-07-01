@@ -8,6 +8,7 @@ A simple logistic regression model. (`T` defaults to `Float32`)
 # Fields
 - `N::Int`: Number of observations in each sample.
 - `K::Int`: Number of features in each sample.
+- `dist::ErrorDistribution`: Distribution of the error term.
 """
 struct Logit{T} <: AbstractDGP{T}
     N::Int
@@ -46,7 +47,7 @@ function simulate(
 
     ϵ = rand(d.dist, d.N)
     X = randn(T, d.N, d.K)
-    y = ϵ .< 1 ./ (1 .+ exp.(-X * θ))
+    y = ϵ .< (1 ./ (1 .+ exp.(-X * θ)))
     hcat(X, y)
 end
 
