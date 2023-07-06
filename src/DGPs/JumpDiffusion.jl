@@ -43,6 +43,15 @@ end
 
 priordraw(d::JumpDiffusion, S::Int) = uniformpriordraw(d, S)
 
+# For JumpDiffusion, due to the atom of probability at zero for λ₀ and τ, we
+# need to use a different data transform than the default.
+function datatransform(d::JumpDiffusion, S::Int; dev=cpu)
+    pd = priordraw(d, S)
+    pd[6, :] .= max.(pd[6, :], 0)
+    pd[8, :] .= max.(pd[8, :], 0)
+    fit(ZScoreTransform, dev(pd))
+end
+
 
 @views function simulate(
     d::JumpDiffusion{T}, θ::AbstractVector{T}; 
@@ -70,7 +79,7 @@ priordraw(d::JumpDiffusion, S::Int) = uniformpriordraw(d, S)
 
     # Jump is random sign time λ₁ times current std. dev.
     function affect!(integrator)
-        integrator.u[1] = integrator.u[1] + rand([-1., 1.]) * λ₁ * exp(integrator.u[2] / 2)
+        integrator.u[1] = integrator.u[1] + rand([-1, 1]) * λ₁ * exp(integrator.u[2] / 2)
         nothing
     end
 
@@ -111,16 +120,24 @@ end
 @views function generate(d::JumpDiffusion{T}, S::Int) where T
     y = priordraw(d, S)
     x = zeros(T, d.N, 3, S)
-    Threads.@threads for s ∈ axes(x, 3)
+    @inbounds Threads.@threads for s ∈ axes(x, 3)
         x[:, :, s] = simulate(d, y[:, s])
     end
     permutedims(x, (2, 3, 1)), y
 end
 
-@views function generate(θ::Vector{Float32}, d::JumpDiffusion{T}, S::Int) where T
+@views function generate(θ::AbstractVector{T}, d::JumpDiffusion{T}, S::Int) where T
     x = zeros(T, d.N, 3, S)
-    Threads.@threads for s ∈ axes(x, 3)
+    @inbounds Threads.@threads for s ∈ axes(x, 3)
         x[:, :, s] = simulate(d, θ)
+    end
+    permutedims(x, (2, 3, 1))
+end
+
+@views function generate(θ::AbstractMatrix{T}, d::JumpDiffusion{T}) where T
+    x = zeros(T, d.N, 3, size(θ, 2))
+    @inbounds Threads.@threads for s ∈ axes(x, 3)
+        x[:, :, s] = simulate_jd(θ[:, s], d.N)
     end
     permutedims(x, (2, 3, 1))
 end

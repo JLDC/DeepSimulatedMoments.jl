@@ -7,9 +7,11 @@ A simple GARCH(1,1) process. (`T` defaults to `Float32`)
 
 # Fields
 - `N::Int`: Number of observations in each sample.
+- `dist::ErrorDistribution`: Distribution of the error term.
 """
 struct GARCH{T} <: AbstractDGP{T}
     N::Int
+    dist::ErrorDistribution
 end
 
 """
@@ -25,7 +27,7 @@ recommended for neural network compatibility).
 # Returns
 - `GARCH{T}`: GARCH DGP.
 """
-GARCH(; N::Int, T::Type=Float32) = GARCH{T}(N)
+GARCH(; N::Int, T::Type=Float32, dist=Normal(T(0), T(1))) = GARCH{T}(N, ErrorDistribution(dist))
 GARCH(N::Int) = GARCH(N=N)
 
 nfeatures(d::GARCH) = 1
@@ -41,7 +43,7 @@ function simulate(d::GARCH{T}, θ₁::T, θ₂::T, θ₃::T) where T
     ω, α, β = reparametrize(θ₁, θ₂, θ₃)
 
     h, y = θ₁, zero(T)
-    z = randn(T, d.N)
+    z = rand(d.dist, d.N)
     ys = zeros(T, d.N)
 
     @inbounds @simd for t ∈ eachindex(ys)
