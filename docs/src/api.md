@@ -27,7 +27,7 @@ HyperParameters
 ### MomentNetwork
 ```@docs
 MomentNetwork
-train_network
+train_network!
 ```
 
 ## Neural Networks

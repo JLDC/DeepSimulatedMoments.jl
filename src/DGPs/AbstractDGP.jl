@@ -78,8 +78,6 @@ Generate `S` data and parameter samples from the DGP.
 (dimension: `nfeatures(d) × S × N` and `S × nparams(d)`).
 """
 generate(d::AbstractDGP, S::Int) = error_msg(typeof(d), "generate")
-# Generate to specific device directly
-generate(d::AbstractDGP, S::Int; dev=cpu) = map(dev, generate(d, S))
 
 """
     generate(θ::AbstractVector{T}, d::AbstractDGP{T}, S::Int)

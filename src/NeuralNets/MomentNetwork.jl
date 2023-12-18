@@ -85,7 +85,7 @@ Generate data from a DGP and apply the data and parameter transforms from the mo
 - `Y`: The transformed parameters.
 """
 function generate(dgp::AbstractDGP, net::MomentNetwork, nsamples::Int)
-    X, Y = generate(dgp, nsamples, dev=net.hyperparameters.dev)
+    X, Y = map(net.hyperparameters.dev, generate(dgp, nsamples))
     apply_transforms(net, X, Y)
 end
 
