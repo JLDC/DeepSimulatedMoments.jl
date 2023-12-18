@@ -46,5 +46,5 @@ net = MomentNetwork(
 )
 
 # Train the moment network
-iterations, losses = train_network(net, dgp)
+iterations, losses = train_network!(net, dgp)
 ```

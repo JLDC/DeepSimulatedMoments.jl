@@ -1,4 +1,4 @@
-export MomentNetwork, apply_transforms, generate, train_network
+export MomentNetwork, apply_transforms, generate, train_network!
 
 """
     MomentNetwork
@@ -93,7 +93,7 @@ _nlosses(net::MomentNetwork) = div(net.hyperparameters.epochs * net.hyperparamet
     net.hyperparameters.validation_freq)
 
 """
-    train_network(net::MomentNetwork, dgp::AbstractDGP; verbose::Bool=true)
+    train_network!(net::MomentNetwork, dgp::AbstractDGP; verbose::Bool=true)
 
 Train a moment network on a DGP.
 
@@ -106,7 +106,7 @@ Train a moment network on a DGP.
 - `iterations`: The iterations at which the losses were computed.
 - `losses`: The losses at each iteration.
 """
-function train_network(
+function train_network!(
     net::MomentNetwork, dgp::AbstractDGP{T}; 
     verbose::Bool=true
 ) where {T<:AbstractFloat}
