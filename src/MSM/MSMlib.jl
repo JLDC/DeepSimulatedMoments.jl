@@ -64,7 +64,7 @@ end
     dgp;
     burnin::Int=100,
     chainlength::Int=1_000,
-    verbosity::Int=10
+    verbosity::Int=50
 )
     # set likelihood and proposal
     Lₙ = θ -> msm_obj(θ, θ⁺, mn, dgp, S) 
