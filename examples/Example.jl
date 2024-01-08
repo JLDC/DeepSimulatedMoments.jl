@@ -1,10 +1,15 @@
-using DeepSimulatedMoments
-using Flux
-using StatsBase
-using BSON
+using DeepSimulatedMoments, Flux, StatsBase, BSON
+
+# define the DGP and sample size
+dgp = MA2(N=100)
+
+# define the loss function
+rmse_conv(Ŷ, Y) = mean(sqrt.(mean(abs2.(Ŷ - Y), dims=2)))
 
 # function to create the net
 function make_net(dev)
+    # configure the TCN
+    tcn = build_tcn(dgp, kernel_size=32, channels=64); # Build a TCN for this DGP
     # Set up the hyperparameters
     hp = HyperParameters(
         validation_size=5_000, loss=rmse_conv, 
@@ -35,14 +40,6 @@ function load_trained()
 end
  
 function main()
-# choose the DGP
-dgp = MA2(N=100)
-
-# configure the TCN
-tcn = build_tcn(dgp, kernel_size=32, channels=64); # Build a TCN for this DGP
-
-# define the loss function
-rmse_conv(Ŷ, Y) = mean(sqrt.(mean(abs2.(Ŷ - Y), dims=2)))
 
 # train_net(dgp)  # comment out when net is trained
 
