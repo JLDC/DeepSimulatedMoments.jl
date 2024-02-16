@@ -28,5 +28,6 @@ LocalPreferences.toml
 # Helper files
 serve_docs.jl
 TODOs.md
-example*.jl
 .vscode
+example.jl
+example*.jl

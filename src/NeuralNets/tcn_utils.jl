@@ -48,7 +48,7 @@ end
 
 """
     build_tcn(d::AbstractDGP; dilation_factor, kernel_size, channels, 
-        summary_size, dropout_rate, residual, pad)
+        summary_size, residual, pad)
     
 Builds a TCN for a specified DGP.
 
@@ -63,7 +63,6 @@ Builds a TCN for a specified DGP.
 - `channels::Int`: Number of channels. (default: `32`)
 - `receptive_field_size::Int`: Receptive field size. (default: `0`, uses the 
     length of the [`AbstractDGP`](@ref) instead)
-- `dropout_rate::AbstractFloat`: Dropout rate. (default: `0.2`)
 - `summary_size::Int`: Size of the summary convolution. (default: `10`)
 - `residual::Bool`: Whether to use residual connections. (default: `true`)
 - `pad`: Padding function. (default: `SamePad()`)
@@ -75,8 +74,8 @@ Builds a TCN for a specified DGP.
 function build_tcn(
     d::AbstractDGP; 
     nlayers::Int=0, dilation_factor::Int=2, kernel_size::Int=8, channels::Int=32, 
-    receptive_field_size::Int=0, dropout_rate::AbstractFloat=0.2, summary_size::Int=10, 
-    residual::Bool=true,  pad=SamePad(), dev::Function=cpu
+    receptive_field_size::Int=0, summary_size::Int=10, residual::Bool=true,  
+    pad=SamePad(), dev::Function=cpu
 )
 
     if nlayers == 0
@@ -90,8 +89,8 @@ function build_tcn(
         Chain(
             TCN(
                 vcat(dim_in, [channels for _ in 1:nlayers], 1),
-                kernel_size=kernel_size, dropout_rate=dropout_rate, pad=pad,
-                residual=residual, dilation_factor=dilation_factor
+                kernel_size=kernel_size, pad=pad, residual=residual, 
+                dilation_factor=dilation_factor
             ),
             Conv((1, summary_size), 1 => 1, stride=summary_size),
             Flux.flatten,

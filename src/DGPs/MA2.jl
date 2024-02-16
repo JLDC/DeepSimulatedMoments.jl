@@ -7,9 +7,11 @@ A simple MA(2) process. (`T` defaults to `Float32`)
 
 # Fields
 - `N::Int`: Number of observations in each sample.
+- `dist::ErrorDistribution`: Distribution of the error term.
 """
 struct MA2{T} <: AbstractDGP{T}
     N::Int
+    dist::ErrorDistribution
 end
 
 """
@@ -25,7 +27,7 @@ recommended for neural network compatibility).
 # Returns
 - `MA2{T}`: MA(2) DGP.
 """
-MA2(; N::Int, T::Type=Float32) = MA2{T}(N)
+MA2(; N::Int, T::Type=Float32, dist=Normal(T(0), T(1))) = MA2{T}(N, ErrorDistribution(dist))
 MA2(N::Int) = MA2(N=N)
 
 nfeatures(d::MA2) = 1
@@ -38,7 +40,7 @@ insupport(::MA2{T}, θ₁::T, θ₂::T) where T =
 insupport(d::MA2{T}, θ::AbstractVector{T}) where T = insupport(d, θ...)
 
 function simulate(d::MA2{T}, θ₁::T, θ₂::T) where T
-    ϵ = randn(T, d.N + 2)
+    ϵ = rand(d.dist, d.N + 2)
     @. ϵ[3:end] + θ₁ * ϵ[2:end-1] + θ₂ * ϵ[1:end-2]
 end
 simulate(d::MA2{T}, θ::AbstractVector{T}) where T = simulate(d, θ...)
