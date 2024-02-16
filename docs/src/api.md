@@ -23,7 +23,6 @@ generate_files
 load_from_file
 ```
 
-
 ## Moment Networks
 
 ### HyperParameters
