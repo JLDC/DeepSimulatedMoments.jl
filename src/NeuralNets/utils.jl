@@ -1,4 +1,4 @@
-export tabular2rnn, tabular2conv
+export tabular2rnn, tabular2conv, rmse_conv, mse_conv
 
 """
     tabular2rnn(X::AbstractArray{T, 3}) where T

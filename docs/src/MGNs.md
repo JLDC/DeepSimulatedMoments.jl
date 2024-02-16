@@ -30,6 +30,7 @@ The training hyperparameters are stored in a [`HyperParameters`](@ref) structure
 The following code snippet shows how to create and train a moment network for an [`MA2`](@ref) data generating process:
 
 ```julia
+using Flux # For ADAMW()
 dgp = MA2(100) # Create an MA(2) DGP with 100 observations
 tcn = build_tcn(dgp) # Build a TCN for this DGP
 
