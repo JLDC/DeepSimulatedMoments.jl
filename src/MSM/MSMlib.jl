@@ -1,4 +1,5 @@
-using Distributions, Statistics
+export mcmc, getmoments, simmomentscov
+
 
 # computes neural moments from data
 function getmoments(net, data)

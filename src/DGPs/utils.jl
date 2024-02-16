@@ -5,12 +5,12 @@ generate_files(dgp::AbstractDGP, dir::String, nfiles::Int;
         preprocessX::Function=identity, preprocessY::Function=identity
     )
 
-Generate data files from a [`DGP`](@ref) and save it to a directory. Note that if 
+Generate data files from a [`AbstractDGP`](@ref) and save it to a directory. Note that if 
 the directory already contains files, the function will continue from the last 
 file until the directory contains `nfiles`.
 
 # Arguments
-- `dgp::AbstractDGP`: The [`DGP`](@ref) to generate data from.
+- `dgp::AbstractDGP`: The [`AbstractDGP`](@ref) to generate data from.
 - `dir::String`: The directory to save the data to.
 - `nfiles::Int`: The number of files to generate.
 
