@@ -7,7 +7,9 @@ nfeatures
 nparams
 priordraw
 generate
+datatransform
 likelihood
+ErrorDistribution
 ```
 
 ### Predefined DGPs
@@ -34,6 +36,7 @@ HyperParameters
 ```@docs
 MomentNetwork
 train_network!
+apply_transforms
 ```
 
 ## Neural Networks

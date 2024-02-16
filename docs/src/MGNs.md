@@ -8,7 +8,7 @@ Moment Networks are the neural networks that create the moment conditions for th
 Moment networks are created using the [`MomentNetwork`](@ref) constructor. The constructor takes the following arguments:
 
 + `model`: The neural network, e.g., a [`TCN`](@ref). More generally, any kind of neural network built using [Flux.jl](https://fluxml.ai/Flux.jl/dev/)
-+ `optimizer`: The optimizer, e.g., [`ADAM`](@ref). More generally, any kind of optimizer built using [Optimisers.jl](https://fluxml.ai/Optimisers.jl/dev/)
++ `optimizer`: The optimizer, e.g., `Flux.Optimise.ADAM`. More generally, any kind of optimizer built using [Optimisers.jl](https://fluxml.ai/Optimisers.jl/dev/)
 + `hyperparameters`: The hyperparameters, a special structure of this package, [`HyperParameters`](@ref), which governs the training hyperparameters of the moment network.
 + `preprocess`: The preprocessing function. This function is applied to the data and parameters before they are passed to the neural network. The default is `nothing`, which means that no preprocessing is applied.
 + `parameter_transform`: The parameter transform. This transform is applied to the parameters before they are passed to the neural network. The default is `nothing`, which means that no transform is applied. Note that if the ranges of the parameters vary greatly, it is recommended to use a parameter transform, e.g., [`datatransform`](@ref).
@@ -30,7 +30,7 @@ The training hyperparameters are stored in a [`HyperParameters`](@ref) structure
 
 The moment network is trained using the [`train_network!`](@ref) function. This function takes the following arguments:  
 + `net`: The moment network to be trained.
-+ `dgp`: The data generating process. This is an object of type [`DGP`](@ref).
++ `dgp`: The data generating process. This is an object of type [`AbstractDGP`](@ref).
 + `verbose`: A boolean indicating whether the training process should be verbose. The default is `true`.
 
 During training, validation occurs exclusively at intervals defined by the `validation_freq` parameter defined by the [`HyperParameters`](@ref) structure. At each specified interval, the framework performs validation, records the loss, and stores these values. The function outputs two arrays upon completion:   
