@@ -1,4 +1,4 @@
-export MomentNetwork, apply_transforms, generate, make_moments, train_network
+export MomentNetwork, apply_transforms, generate, train_network!
 
 """
     MomentNetwork
@@ -94,7 +94,7 @@ Generate data from a DGP and apply the data and parameter transforms from the mo
 - `Y`: The transformed parameters.
 """
 function generate(dgp::AbstractDGP, net::MomentNetwork, nsamples::Int)
-    X, Y = generate(dgp, nsamples, dev=net.hyperparameters.dev)
+    X, Y = map(net.hyperparameters.dev, generate(dgp, nsamples))
     apply_transforms(net, X, Y)
 end
 
@@ -113,7 +113,7 @@ _nlosses(net::MomentNetwork) = div(
 )
 
 """
-    train_network(net::MomentNetwork, dgp::AbstractDGP; verbose::Bool=true)
+    train_network!(net::MomentNetwork, dgp::AbstractDGP; verbose::Bool=true)
 
 Train a moment network on a DGP.
 
@@ -126,7 +126,7 @@ Train a moment network on a DGP.
 - `iterations`: The iterations at which the losses were computed.
 - `losses`: The losses at each iteration.
 """
-function train_network(
+function train_network!(
     net::MomentNetwork, dgp::AbstractDGP{T}; 
     verbose::Bool=true
 ) where {T<:AbstractFloat}

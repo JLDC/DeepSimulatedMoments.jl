@@ -51,10 +51,7 @@ function simulate(
     hcat(X, y)
 end
 
-@views function generate(
-    d::Logit{T}, S::Int; 
-) where {T<:AbstractFloat}
-
+@views function generate(d::Logit{T}, S::Int) where {T<:AbstractFloat}
     θ = priordraw(d, S)
     X = zeros(T, d.N, S, nfeatures(d))
 

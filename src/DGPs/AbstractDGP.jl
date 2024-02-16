@@ -91,7 +91,8 @@ Generate `S` data and parameter samples from the DGP.
 - Tuple{`Matrix{T}`, `Matrix{T}`}: `S` samples of the data and parameters 
 (dimension: `nfeatures(d) × S × N` and `S × nparams(d)`).
 """
-generate(d::AbstractDGP, S::Int; dev=cpu) = map(dev, generate(d, S))
+
+generate(d::AbstractDGP, S::Int) = error_msg(typeof(d), "generate")
 
 """
     generate(θ::AbstractVector{T}, d::AbstractDGP{T}, S::Int)

@@ -26,10 +26,22 @@ The training hyperparameters are stored in a [`HyperParameters`](@ref) structure
 + `validation_freq`: The frequency with which the validation set is evaluated.
 + `print_every`: The frequency with which information about the training process is printed.
 
+## Training the Network
+
+The moment network is trained using the [`train_network!`](@ref) function. This function takes the following arguments:  
++ `net`: The moment network to be trained.
++ `dgp`: The data generating process. This is an object of type [`DGP`](@ref).
++ `verbose`: A boolean indicating whether the training process should be verbose. The default is `true`.
+
+During training, validation occurs exclusively at intervals defined by the `validation_freq` parameter defined by the [`HyperParameters`](@ref) structure. At each specified interval, the framework performs validation, records the loss, and stores these values. The function outputs two arrays upon completion:   
++ `iterations`: An array of the iterations at which validation occurred.
++ `losses`: An array of the corresponding losses recorded at those iterations.
+
 ### Example
 The following code snippet shows how to create and train a moment network for an [`MA2`](@ref) data generating process:
 
 ```julia
+using Flux # For ADAMW(), the optimizer
 dgp = MA2(100) # Create an MA(2) DGP with 100 observations
 tcn = build_tcn(dgp) # Build a TCN for this DGP
 
@@ -46,5 +58,5 @@ net = MomentNetwork(
 )
 
 # Train the moment network
-iterations, losses = train_network(net, dgp)
+iterations, losses = train_network!(net, dgp)
 ```
