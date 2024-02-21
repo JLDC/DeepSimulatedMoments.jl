@@ -54,7 +54,7 @@ hp = HyperParameters(
 # Create the moment network
 net = MomentNetwork(
     tcn |> hp.dev, ADAMW(), hp, 
-    parameter_transform=(datatransform(dgp, 100_000, dev=hp.dev))
+    parameter_transform=datatransform(dgp, 100_000, dev=hp.dev)
 )
 
 # Train the moment network
